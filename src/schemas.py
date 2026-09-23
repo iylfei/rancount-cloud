@@ -504,6 +504,10 @@ class ReadTransactionOut(BaseModel):
     amount: float
     happened_at: datetime
     note: str | None
+    merchant: str | None = None
+    item_description: str | None = None
+    payment_channel: str | None = None
+    refund_of_sync_id: str | None = None
     category_name: str | None
     category_kind: str | None
     account_name: str | None

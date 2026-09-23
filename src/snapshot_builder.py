@@ -71,6 +71,10 @@ def build(db: Session, ledger: Ledger) -> dict[str, Any]:
         # 全量同步后外币折算全部丢失(apply 缺省 nativeAmount=amount 退化 1:1)。
         ReadTxProjection.currency_code,
         ReadTxProjection.native_amount,
+        ReadTxProjection.merchant,
+        ReadTxProjection.item_description,
+        ReadTxProjection.payment_channel,
+        ReadTxProjection.refund_of_sync_id,
     ).where(ReadTxProjection.ledger_id == ledger_id).order_by(
         ReadTxProjection.happened_at.desc(),
         ReadTxProjection.tx_index.desc(),
@@ -83,7 +87,8 @@ def build(db: Session, ledger: Ledger) -> dict[str, Any]:
          to_sid, to_name,
          tags_csv, tag_ids_json, attachments_json,
          tx_index, created_by,
-         currency_code, native_amount) = row
+         currency_code, native_amount,
+         merchant, item_description, payment_channel, refund_of_sync_id) = row
         item: dict[str, Any] = {
             "syncId": sync_id,
             "type": tx_type,
@@ -135,6 +140,14 @@ def build(db: Session, ledger: Ledger) -> dict[str, Any]:
             item["currencyCode"] = currency_code
         if native_amount is not None:
             item["nativeAmount"] = native_amount
+        if merchant is not None:
+            item["merchant"] = merchant
+        if item_description is not None:
+            item["itemDescription"] = item_description
+        if payment_channel is not None:
+            item["paymentChannel"] = payment_channel
+        if refund_of_sync_id is not None:
+            item["refundOfSyncId"] = refund_of_sync_id
         items.append(item)
 
     # Accounts —— user-global per-user 表,按 user_id 取。snapshot 内仍把全用户

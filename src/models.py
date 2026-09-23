@@ -512,6 +512,10 @@ class ReadTxProjection(Base):
     # 统计端 COALESCE 回退 amount)。账本维度统计读 native_amount,账户维度仍 amount。
     currency_code: Mapped[str | None] = mapped_column(String(16), nullable=True)
     native_amount: Mapped[float | None] = mapped_column(Float, nullable=True)
+    merchant: Mapped[str | None] = mapped_column(Text, nullable=True)
+    item_description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    payment_channel: Mapped[str | None] = mapped_column(Text, nullable=True)
+    refund_of_sync_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
 
 Index(
