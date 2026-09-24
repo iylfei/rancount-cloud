@@ -24,6 +24,7 @@ from .metrics import metrics
 from .observability import configure_logging, install_request_middleware
 from .bootstrap_admin import ensure_admin
 from .routers import admin, attachments, auth, devices, pats, profile, read, sync, write, ws
+from .routers import app_updates
 from .routers import admin_backup, mcp_calls, two_factor
 from .routers import ai as ai_router
 from .routers import import_data as import_router
@@ -66,6 +67,7 @@ app = FastAPI(
     version=_beecount_cloud_version,
     description="BeeCount Cloud v1 API",
 )
+app.include_router(app_updates.router, prefix=f"{settings.api_prefix}/app-updates", tags=["app-updates"])
 
 
 # 公开版本接口:mobile / web UI 都会调用它,在设置区或 header 展示

@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     api_prefix: str = "/api/v1"
     web_static_dir: str = "/app/static"
+    app_update_dir: str = Field(default="./data/app-updates", alias="APP_UPDATE_DIR")
 
     database_url: str = Field(default="sqlite:///./beecount.db")
 

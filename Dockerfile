@@ -81,6 +81,7 @@ COPY --from=docs-index-fetcher /website/data /app/data
 RUN mkdir -p /data /app/logs
 ENV APP_ENV=production \
     DATA_DIR=/data \
+    APP_UPDATE_DIR=/data/app-updates \
     DATABASE_URL=sqlite:////data/beecount.db \
     BACKUP_STORAGE_DIR=/data/backups \
     ATTACHMENT_STORAGE_DIR=/data/attachments \
